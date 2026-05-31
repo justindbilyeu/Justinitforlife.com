@@ -108,6 +108,13 @@
     display: block;
     margin-bottom: 0.3rem;
   }
+  .pricing-eyebrow {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    color: var(--brick);
+    margin-bottom: 0.5rem;
+  }
 
   /* FORM */
   .form-section { background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -218,17 +225,18 @@
     </div>
 
     <div class="pricing-note">
+      <div class="pricing-eyebrow">PARTNERSHIP LEVELS</div>
       <strong>1% &middot; 3% &middot; 5%</strong>
-      Of total job ticket &mdash; based on scope of work
+      Of total job ticket &mdash; depending on how deep we partner on the deal
     </div>
   </div>
 </section>
 
 <section class="form-section">
   <div class="container">
-    <h2 class="section-title">Request an Inspection</h2>
+    <h2 class="section-title">Make Me an Offer</h2>
     <div class="section-bar"></div>
-    <p style="color: var(--slate-soft);">Fill this out and hit Email or Text. Your phone will open up with the request pre-filled, ready to send to me.</p>
+    <p style="color: var(--slate-soft);">Got a property you want to team up on? Pick a partnership level or a single service, hit Email or Text, and your offer lands in my inbox or phone.</p>
 
     <form id="requestForm" onsubmit="return false;">
       <div class="form-row">
@@ -247,13 +255,20 @@
       </div>
 
       <div class="form-row">
-        <label for="service">Service Needed</label>
-        <select id="service" name="service">
-          <option value="Roof Inspection">Roof Inspection</option>
-          <option value="Adjuster Meeting">Adjuster Meeting</option>
-          <option value="Roof Report">Roof Report Generation</option>
-          <option value="Drone Photography">Drone Photography</option>
-          <option value="Multiple / Not sure">Multiple / Not sure</option>
+        <label for="offer">Your Offer <span class="req">*</span></label>
+        <select id="offer" name="offer">
+          <optgroup label="Partnership on the whole deal">
+            <option value="Partnership at 1% of total ticket">Partnership &mdash; 1% of total ticket</option>
+            <option value="Partnership at 3% of total ticket">Partnership &mdash; 3% of total ticket</option>
+            <option value="Partnership at 5% of total ticket">Partnership &mdash; 5% of total ticket</option>
+          </optgroup>
+          <optgroup label="Single service only">
+            <option value="Single service: Roof Inspection">Just a Roof Inspection</option>
+            <option value="Single service: Adjuster Meeting">Just an Adjuster Meeting</option>
+            <option value="Single service: Roof Report">Just a Roof Report</option>
+            <option value="Single service: Drone Photography">Just Drone Photography</option>
+          </optgroup>
+          <option value="Let's talk it through">Not sure &mdash; let's talk it through</option>
         </select>
       </div>
 
@@ -263,11 +278,11 @@
       </div>
 
       <div class="form-buttons">
-        <button type="button" class="btn" onclick="sendEmail()">Send via Email</button>
-        <button type="button" class="btn alt" onclick="sendText()">Send via Text</button>
+        <button type="button" class="btn" onclick="sendEmail()">Send Offer via Email</button>
+        <button type="button" class="btn alt" onclick="sendText()">Send Offer via Text</button>
       </div>
 
-      <p class="form-help">Both buttons open your email or messaging app with the request ready to send.</p>
+      <p class="form-help">Both buttons open your email or messaging app with the offer ready to send.</p>
     </form>
   </div>
 </section>
@@ -291,7 +306,7 @@
       address: document.getElementById('address').value.trim(),
       contractor: document.getElementById('contractor').value.trim(),
       phone: document.getElementById('phone').value.trim(),
-      service: document.getElementById('service').value,
+      offer: document.getElementById('offer').value,
       notes: document.getElementById('notes').value.trim()
     };
   }
@@ -307,11 +322,11 @@
   function sendEmail() {
     const d = getFormData();
     if (!validate(d)) return;
-    const subject = 'Inspection Request \u2014 ' + d.address;
+    const subject = 'Offer \u2014 ' + d.address;
     const body =
-      'Service: ' + d.service + '\n' +
       'Address: ' + d.address + '\n' +
-      'Contractor: ' + d.contractor + '\n' +
+      'Offer: ' + d.offer + '\n' +
+      'From: ' + d.contractor + '\n' +
       'Phone: ' + (d.phone || '(not provided)') + '\n\n' +
       'Notes:\n' + (d.notes || '(none)');
     window.location.href =
@@ -324,9 +339,8 @@
     const d = getFormData();
     if (!validate(d)) return;
     const body =
-      'Inspection request\n' +
-      'Service: ' + d.service + '\n' +
-      'Address: ' + d.address + '\n' +
+      'Offer for ' + d.address + '\n' +
+      d.offer + '\n' +
       'From: ' + d.contractor +
       (d.phone ? ' (' + d.phone + ')' : '') +
       (d.notes ? '\nNotes: ' + d.notes : '');
